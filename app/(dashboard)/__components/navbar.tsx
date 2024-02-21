@@ -34,7 +34,7 @@ export const Navbar = () => {
       </div>
 
       <InviteButton />
-      <UserButton />
+      <UserButton afterSignOutUrl="/" />
     </nav>
   );
 };
