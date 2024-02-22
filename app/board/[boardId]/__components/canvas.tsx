@@ -401,7 +401,11 @@ export default function Canvas({ boardId }: CanvasProps) {
         redo={history.redo}
         undo={history.undo}
       />
-      <SelectionTools camera={camera} setLastUsedColor={setLastUsedColor} />
+      <SelectionTools
+        camera={camera}
+        setLastUsedColor={setLastUsedColor}
+        lastUsedColor={lastUsedColor}
+      />
       <svg
         onWheel={onWheel}
         onPointerMove={onPointerMove}
