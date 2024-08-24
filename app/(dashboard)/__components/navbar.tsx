@@ -1,6 +1,7 @@
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import { SearchInput } from "./search";
 import InviteButton from "./invite-button";
+import { ModeToggle } from "@/components/ui/theme-toggle";
 
 export const Navbar = () => {
   return (
@@ -23,10 +24,8 @@ export const Navbar = () => {
               organizationSwitcherTrigger: {
                 padding: "6px",
                 width: "100%",
-                borderRadius: "8px",
-                border: "1px solid #e5e7eb",
                 justifyContent: "space-between",
-                backgroundColor: "white",
+                border: "1px solid rgb(41, 37, 36)",
               },
             },
           }}
@@ -35,6 +34,7 @@ export const Navbar = () => {
 
       <InviteButton />
       <UserButton afterSignOutUrl="/" />
+      <ModeToggle />
     </nav>
   );
 };

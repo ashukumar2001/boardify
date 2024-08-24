@@ -10,9 +10,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Hint from "@/components/hint";
 import { Separator } from "@/components/ui/separator";
-import { useRenameModal } from "@/store/use-rename-modal";
+// import { useRenameModal } from "@/store/use-rename-modal";
 import BoardActions from "@/components/board-actions";
-import { Menu } from "lucide-react";
+import { EllipsisVertical } from "lucide-react";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -23,21 +23,25 @@ interface InfoProps {
   boardId: string;
 }
 export default function Info({ boardId }: InfoProps) {
-  const { onOpen } = useRenameModal();
+  // const { onOpen } = useRenameModal();
   const data = useQuery(api.board.get, { id: boardId as Id<"boards"> });
 
   if (!data) return <InfoSkeleton />;
   return (
-    <div className="absolute top-2 left-2 bg-white rounded-md px-1.5 h-12 flex items-center shadow-md w-fit">
+    <div className="rounded-md h-10 flex items-center w-fit">
       <Hint label="Go to boards" side="bottom" sideOffset={12}>
-        <Button asChild className="px-2" variant="board">
+        <Button asChild className="px-2" variant="ghost" size="sm">
           <Link href="/">
-            <Image src="/logo.svg" height={40} width={40} alt="Boardify" />
+            <Image
+              src="/logo.svg"
+              height={24}
+              width={24}
+              alt="Boardify"
+              className="aspect-square"
+              priority={false}
+            />
             <span
-              className={cn(
-                "font-semibold text-xl ml-2 text-black",
-                font.className
-              )}
+              className={cn("font-semibold text-base ml-2", font.className)}
             >
               Boardify
             </span>
@@ -45,30 +49,25 @@ export default function Info({ boardId }: InfoProps) {
         </Button>
       </Hint>
       <Separator orientation="vertical" className="h-1/2 mx-2" />
-      <Hint label="Edit title" side="bottom" sideOffset={12}>
-        <Button
-          className="text-base font-normal px-2"
-          variant="board"
-          onClick={() => onOpen(data._id, data.title)}
-        >
-          {data.title}
-        </Button>
-      </Hint>
+      <Button
+        className=" text-sm font-normal px-2"
+        variant="ghost"
+        // onClick={() => onOpen(data._id, data.title)}
+        size="sm"
+      >
+        {data.title}
+      </Button>
       <Separator orientation="vertical" className="h-1/2 mx-2" />
-
       <BoardActions
         id={data._id}
         title={data.title}
         side="bottom"
-        sideOffset={12}
+        sideOffset={6}
+        showAppearanceMenu
       >
-        <div>
-          <Hint label="Main menu" side="bottom" sideOffset={12}>
-            <Button size="icon" variant="board">
-              <Menu />
-            </Button>
-          </Hint>
-        </div>
+        <Button size="icon-xs" variant="ghost">
+          <EllipsisVertical size={16} />
+        </Button>
       </BoardActions>
     </div>
   );

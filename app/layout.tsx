@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import ModalProvider from "@/providers/modal-providers";
 import { Suspense } from "react";
 import Loading from "@/components/auth/loading";
+import { ThemeProvider } from "@/components/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,13 +23,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Suspense fallback={<Loading />}>
-          <ConvexClientProvider>
-            <Toaster />
-            <ModalProvider />
-            {children}
-          </ConvexClientProvider>
-        </Suspense>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Suspense fallback={<Loading />}>
+            <ConvexClientProvider>
+              <Toaster />
+              <ModalProvider />
+              {children}
+            </ConvexClientProvider>
+          </Suspense>
+        </ThemeProvider>
       </body>
     </html>
   );

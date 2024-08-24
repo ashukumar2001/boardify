@@ -1,4 +1,4 @@
-import { useMutation, useSelf } from "@/liveblocks.config";
+import { useMutation, useSelf } from "@liveblocks/react/suspense";
 
 const useDeleteLayers = () => {
     const selection = useSelf(me => me.presence.selection);
@@ -11,7 +11,7 @@ const useDeleteLayers = () => {
         const liveLayers = storage.get("layers");
         const liveLayerIds = storage.get("layerIds");
 
-        for (const id of selection) {
+        for (const id of selection!) {
             liveLayers.delete(id);
             const index = liveLayerIds.indexOf(id);
             if (index !== -1) liveLayerIds.delete(index);

@@ -1,34 +1,32 @@
 "use client";
 
-import { RoomProvider } from "@/liveblocks.config";
-import { Layer } from "@/types/canvas";
-import { LiveList, LiveMap, LiveObject } from "@liveblocks/client";
-
-import { ClientSideSuspense } from "@liveblocks/react";
+import { generateCursorColor } from "@/lib/utils";
+import {
+  LiveblocksProvider,
+  RoomProvider,
+  ClientSideSuspense,
+} from "@liveblocks/react/suspense";
+import { useTheme } from "next-themes";
 
 interface RoomProps {
   children: React.ReactNode;
   roomId: string;
-  fallback: NonNullable<React.ReactNode> | null;
+  fallback?: NonNullable<React.ReactNode> | null;
 }
 export default function Room({ children, roomId, fallback }: RoomProps) {
+  const { theme } = useTheme();
   return (
-    <RoomProvider
-      id={roomId}
-      initialPresence={{
-        cursor: null,
-        selection: [],
-        pencilDraft: null,
-        penColor: null,
-      }}
-      initialStorage={{
-        layers: new LiveMap<string, LiveObject<Layer>>(),
-        layerIds: new LiveList(),
-      }}
-    >
-      <ClientSideSuspense fallback={fallback}>
-        {() => children}
-      </ClientSideSuspense>
-    </RoomProvider>
+    <LiveblocksProvider throttle={16} authEndpoint="/api/liveblocks-auth">
+      <RoomProvider
+        id={roomId}
+        initialPresence={{
+          color: generateCursorColor(theme === "dark"),
+        }}
+      >
+        <ClientSideSuspense fallback={fallback}>
+          {() => children}
+        </ClientSideSuspense>
+      </RoomProvider>
+    </LiveblocksProvider>
   );
 }

@@ -19,20 +19,26 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 
 export default function RenameModal() {
-  const { mutate, pending } = useApiMutation(api.board.update);
+  const { mutate, isPending } = useApiMutation(api.board.update);
   const { initialValues, isOpen, onClose } = useRenameModal();
   const [title, setTitle] = useState(initialValues.title);
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    mutate({
-      id: initialValues.id as Id<"boards">,
-      title,
-    })
-      .then(() => {
-        toast.success("Board renamed");
-        onClose();
-      })
-      .catch(() => toast.error("Unable to rename board"));
+    mutate(
+      {
+        id: initialValues.id as Id<"boards">,
+        title,
+      },
+      {
+        onSuccess() {
+          toast.success("Board renamed");
+          onClose();
+        },
+        onError() {
+          toast.error("Unable to rename board");
+        },
+      }
+    );
   };
   useEffect(() => {
     setTitle(initialValues.title);
@@ -46,7 +52,7 @@ export default function RenameModal() {
         <DialogDescription>Enter a new title for this board</DialogDescription>
         <form onSubmit={onSubmit} className="space-y-6">
           <Input
-            disabled={pending}
+            disabled={isPending}
             maxLength={60}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -60,7 +66,9 @@ export default function RenameModal() {
                 Cancel
               </Button>
             </DialogClose>
-            <Button disabled={pending}>{pending ? "Saving" : "Save"}</Button>
+            <Button disabled={isPending}>
+              {isPending ? "Saving" : "Save"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

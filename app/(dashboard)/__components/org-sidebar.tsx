@@ -19,7 +19,13 @@ export const OrgSidebar = () => {
     <section className="hidden lg:flex flex-col space-y-6 w-[206px] pl-5 pt-5 h-full">
       <Link href="/">
         <div className="flex items-center gap-x-2">
-          <Image src="/logo.svg" alt="logo" height={34} width={34} />
+          <Image
+            src="/logo.svg"
+            alt="logo"
+            height={34}
+            width={34}
+            priority={false}
+          />
           <span className={cn("font-semibold text-2xl", font.className)}>
             Boardify
           </span>
@@ -38,10 +44,7 @@ export const OrgSidebar = () => {
             organizationSwitcherTrigger: {
               padding: "6px",
               width: "100%",
-              borderRadius: "8px",
-              border: "1px solid #e5e7eb",
               justifyContent: "space-between",
-              backgroundColor: "white",
             },
           },
         }}
