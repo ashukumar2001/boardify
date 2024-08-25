@@ -18,6 +18,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import ConfirmationModal from "./confirmation-modal";
 import { useRenameModal } from "@/store/use-rename-modal";
 import { useTheme } from "next-themes";
+import { Button } from "./ui/button";
 interface BoardActionsProps {
   children: React.ReactNode;
   side?: DropdownMenuContentProps["side"];
@@ -79,19 +80,20 @@ export default function BoardActions({
         </DropdownMenuItem>
 
         {isAuthor && (
-          <DropdownMenuItem>
-            <ConfirmationModal
-              header="Are you sure you want to delete this board?"
-              description="This will delete the board and all of its content"
-              disabled={isPending}
-              onConfirm={handleDeleteBoard}
+          <ConfirmationModal
+            header="Are you sure you want to delete this board?"
+            description="This will delete the board and all of its content"
+            disabled={isPending}
+            onConfirm={handleDeleteBoard}
+          >
+            <Button
+              variant="ghost"
+              className="w-full justify-start py-1.5 px-2 text-sm h-auto"
             >
-              <span className="flex">
-                <Trash className="h-4 w-4 mr-2" />
-                Delete
-              </span>
-            </ConfirmationModal>
-          </DropdownMenuItem>
+              <Trash className="h-4 w-4 mr-2" />
+              Delete
+            </Button>
+          </ConfirmationModal>
         )}
 
         <DropdownMenuItem
