@@ -12,7 +12,7 @@ export default function BoardAccessErrorPage() {
           Access Restricted
         </h1>
         <p className="mt-4 text-muted-foreground">
-          You don't have access to this board.
+          You don&apos;t have access to this board.
         </p>
         <div className="mt-6">
           <Button

@@ -26,7 +26,7 @@ const TldrawWrapper = memo(() => {
     </div>
   );
 });
-
+TldrawWrapper.displayName = "TldrawWrapper";
 export default TldrawWrapper;
 
 const InsideOfContext = () => {

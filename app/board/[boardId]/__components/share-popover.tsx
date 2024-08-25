@@ -72,8 +72,6 @@ const SharePopover = memo(({ boardId }: { boardId: string }) => {
     return [];
   }, [organizationMembers, boardUserIds]);
 
-  if (!isLoaded) return null;
-
   useEffect(() => {
     const unsubscribeRoom = room.subscribe("event", ({ event }) => {
       const ev = event as { type: string; userId: string };
@@ -93,7 +91,9 @@ const SharePopover = memo(({ boardId }: { boardId: string }) => {
     return () => {
       unsubscribeRoom();
     };
-  }, [loggedInUser?.id, room]);
+  }, [loggedInUser?.id, room, router]);
+
+  if (!isLoaded) return null;
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -189,6 +189,8 @@ const SharePopover = memo(({ boardId }: { boardId: string }) => {
     </Popover>
   );
 });
+
+SharePopover.displayName = "SharePopover";
 
 interface BoardUserListItemProps {
   u: User;
