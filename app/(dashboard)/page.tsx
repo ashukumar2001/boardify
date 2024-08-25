@@ -6,7 +6,7 @@ import BoardList from "./__components/board-list";
 interface DashboardPageProps {
   searchParams: {
     search?: string;
-    favourites?: string;
+    favourites?: "true" | null;
   };
 }
 export default function Dashboard({ searchParams }: DashboardPageProps) {

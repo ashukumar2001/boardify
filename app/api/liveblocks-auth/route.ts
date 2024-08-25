@@ -1,6 +1,6 @@
 import { Liveblocks } from "@liveblocks/node";
 import { ConvexHttpClient } from "convex/browser";
-import { auth, currentUser } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { api } from "@/convex/_generated/api";
 
 
@@ -15,15 +15,17 @@ export async function POST(request: Request) {
     const user = await currentUser();
 
     if (!authorization || !user) {
-        return new Response("Unauthorized", { status: 403 });
+        return new Response("Unauthorized", { status: 401 });
     }
-
     const { room } = await request.json();
 
-    const board = await convex.query(api.board.get, { id: room });
-    if (board?.orgId !== authorization.orgId) {
-        return new Response("Unauthorized", { status: 403 });
-    }
+    const userBoard = await convex.query(api.userBoard.get, { boardId: room, orgId: authorization.orgId as string | undefined, userId: user.id })
+    // const board = await convex.query(api.board.get, { id: room });
+    // if (!board || !userBoard) return new Response("Not found", { status: 404 });
+    // if (board?.orgId !== authorization.orgId) {
+    //     return new Response("Unauthorized", { status: 403 });
+    // }
+    if (!userBoard) return new Response("Forbidden", { status: 403 });
     const userInfo = {
         name: user.firstName || "Anonymous",
         picture: user.imageUrl!,

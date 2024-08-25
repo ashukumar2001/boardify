@@ -17,25 +17,31 @@ export default function AddBoardButton({
   disabled,
 }: AddBoardButtonProps) {
   const router = useRouter();
-  const { mutate, pending } = useApiMutation(api.board.create);
+  const { mutate, isPending } = useApiMutation(api.board.create);
   const handleCreateBoard = () => {
-    mutate({
-      title: "Untitled",
-      orgId,
-    })
-      .then((id) => {
-        toast.success("Board created!");
-        router.push(`/board/${id}`);
-      })
-      .catch(() => toast.error("Unable to create board"));
+    mutate(
+      {
+        title: "Untitled",
+        orgId,
+      },
+      {
+        onSuccess(id) {
+          toast.success("Board created!");
+          router.push(`/board/${id}`);
+        },
+        onError() {
+          toast.error("Unable to create board");
+        },
+      }
+    );
   };
   return (
     <button
-      disabled={pending || disabled}
+      disabled={isPending || disabled}
       onClick={handleCreateBoard}
       className={cn(
         "col-span-1 aspect-[100/127] bg-brand rounded-lg hover:bg-brand-primary flex flex-col items-center justify-center py-6 transition",
-        (pending || disabled) && "opacity-75 hover:bg-brand"
+        (isPending || disabled) && "opacity-75 hover:bg-brand"
       )}
     >
       <div />

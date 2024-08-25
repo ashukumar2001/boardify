@@ -29,7 +29,9 @@ export default function ConfirmationModal({
 }: ConfirmationModalProps) {
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+      <AlertDialogTrigger asChild className="p-0">
+        {children}
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{header}</AlertDialogTitle>

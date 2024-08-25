@@ -8,6 +8,7 @@ const Loading = () => {
         alt="logo"
         width={48}
         height={48}
+        priority={false}
         className="animate-pulse duration-1000"
       />
     </div>

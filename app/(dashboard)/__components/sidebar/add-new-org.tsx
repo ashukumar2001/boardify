@@ -22,8 +22,8 @@ const AddNewOrgButton = () => {
           </Hint>
         </div>
       </DialogTrigger>
-      <DialogContent className="p-0 bg-transparent border-none max-w-[480px]">
-        <CreateOrganization />
+      <DialogContent className="p-0 bg-transparent border-none w-fit">
+        <CreateOrganization routing="hash" />
       </DialogContent>
     </Dialog>
   );

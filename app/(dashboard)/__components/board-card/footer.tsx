@@ -19,7 +19,7 @@ export default function Footer({
   onClick,
 }: FooterProps) {
   return (
-    <div className="relative bg-white p-3">
+    <div className="relative p-3">
       <p className="text-[13px] truncate max-w-[100%-20px]">{title}</p>
       <p className="opacity-0 group-hover:opacity-100 text-[11px] text-muted-foreground truncate">
         {authorLabel},&nbsp;{createdAtLabel}

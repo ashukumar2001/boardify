@@ -18,19 +18,25 @@ export default function NoResult({
   isCreateBoard?: boolean;
 }) {
   const router = useRouter();
-  const { mutate, pending } = useApiMutation(api.board.create);
+  const { mutate, isPending } = useApiMutation(api.board.create);
   const { organization } = useOrganization();
   const handleCreateBoard = () => {
     if (!organization) return;
-    mutate({
-      title: "Untitled",
-      orgId: organization.id,
-    })
-      .then((id) => {
-        toast.success("Board created!");
-        router.push(`/board/${id}`);
-      })
-      .catch(() => toast.error("Unable to create board"));
+    mutate(
+      {
+        title: "Untitled",
+        orgId: organization.id,
+      },
+      {
+        onSuccess(id) {
+          toast.success("Board created!");
+          router.push(`/board/${id}`);
+        },
+        onError() {
+          toast.error("Unable to create board");
+        },
+      }
+    );
   };
   return (
     <div className="h-full flex flex-col items-center justify-center">
@@ -40,7 +46,11 @@ export default function NoResult({
         <p className="text-muted-foreground text-sm mt-2">{description}</p>
       )}
       {isCreateBoard && (
-        <Button disabled={pending} className="mt-6" onClick={handleCreateBoard}>
+        <Button
+          disabled={isPending}
+          className="mt-6"
+          onClick={handleCreateBoard}
+        >
           Create board
         </Button>
       )}

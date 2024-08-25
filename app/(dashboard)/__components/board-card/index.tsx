@@ -23,6 +23,7 @@ interface BoardCardProps {
   authorName: string;
   imageUrl: string;
   isFavourite: boolean;
+  userBoardId: Id<"userBoards">;
 }
 
 export default function BoardCard({
@@ -34,12 +35,13 @@ export default function BoardCard({
   orgId,
   title,
   isFavourite,
+  userBoardId,
 }: BoardCardProps) {
   const { userId } = useAuth();
-  const { mutate: favourite, pending: pendingFavourite } = useApiMutation(
+  const { mutate: favourite, isPending: pendingFavourite } = useApiMutation(
     api.board.favourite
   );
-  const { mutate: unFavourite, pending: pendingUnFavourite } = useApiMutation(
+  const { mutate: unFavourite, isPending: pendingUnFavourite } = useApiMutation(
     api.board.unFavourite
   );
   const authorLabel = userId === authorId ? "You" : authorName;
@@ -53,23 +55,39 @@ export default function BoardCard({
     e.stopPropagation();
     e.preventDefault();
     if (isFavourite)
-      unFavourite({ id: _id }).catch(() =>
-        toast.error("Failed to unfavourite")
+      unFavourite(
+        { userBoardId },
+        {
+          onError() {
+            toast.error("Failed to un-favourite");
+          },
+        }
       );
     else
-      favourite({ id: _id, orgId }).catch(() =>
-        toast.error("Failed to favorite")
+      favourite(
+        { userBoardId },
+        {
+          onError() {
+            toast.error("Failed to favourite");
+          },
+        }
       );
   };
   return (
     <Link href={`/board/${_id}`}>
       <div className="group aspect-[100/127] border rounded-lg flex flex-col justify-between overflow-hidden">
-        <div className="relative flex-1 bg-amber-50">
+        <div className="relative flex-1 bg-amber-50 dark:bg-gray-800">
           <Image src={imageUrl} alt={title} fill className="object-fill" />
           <Overlay />
-          <BoardActions id={_id} title={title} side="right">
+          <BoardActions
+            id={_id}
+            title={title}
+            side="right"
+            isAuthor={userId === authorId}
+            userBoardId={userBoardId}
+          >
             <button className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity px-3 py-2 outline-none">
-              <MoreHorizontal className="text-white opacity-75 hover:opacity-100 transition-opacity" />
+              <MoreHorizontal className="opacity-75 hover:opacity-100 transition-opacity" />
             </button>
           </BoardActions>
         </div>

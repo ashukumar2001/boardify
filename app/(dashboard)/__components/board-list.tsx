@@ -9,7 +9,7 @@ interface BoardListProps {
   orgId: string;
   query: {
     search?: string;
-    favourites?: string;
+    favourites?: "true" | null;
   };
 }
 const noDataContent = {
