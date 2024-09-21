@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Title } from "@radix-ui/react-dialog";
 import { Star } from "lucide-react";
 
 interface FooterProps {

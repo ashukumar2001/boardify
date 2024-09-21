@@ -13,7 +13,7 @@ import Loading from "@/components/auth/loading";
 import Landing from "@/components/landing";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
-import { dark, neobrutalism } from "@clerk/themes";
+import { dark } from "@clerk/themes";
 interface ConvexClientProviderProps {
   children: React.ReactNode;
 }

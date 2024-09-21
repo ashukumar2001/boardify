@@ -52,7 +52,7 @@ const SharePopover = memo(({ boardId }: { boardId: string }) => {
   const { isLoaded, memberships } = useOrganization({
     memberships: { pageSize: 5, keepPreviousData: true },
   });
-  const { data: board, isLoading: isBoardLoading } = useQuery(
+  const { data: board } = useQuery(
     convexQuery(api.board.get, { id: boardId as Id<"boards"> })
   );
 
